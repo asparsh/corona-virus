@@ -34,6 +34,15 @@ class arima_model():
         self.pred[country][state]['test_cases'] = self.data[country][state]['test_cases']
         self.pred[country][state]['train_original'] = self.data[country][state]['train_cases']
 
+    def check_negative(self, pred, key):
+        for country in pred:
+            for state in pred[country]:
+                for index in range(len(pred[country][state][key])):
+                    if pred[country][state][key][index] < 0:
+                        pred[country][state][key][index] = 0
+
+        return pred
+
     def initialise_model(self, value, num, train):
         if value:
             model = ARIMA(train, order=(3, 0, 0))
@@ -109,6 +118,8 @@ class arima_model():
                         self.pred[country][state]['upper'] += [(self.pred[country][state]['test_cases'][-1] + 5)] * 7
                         self.pred[country][state]['forecast_dates'] += self.generate_dates(
                             self.data[country][state]['dates'][-1], 7)
+        self.pred = self.check_negative(self.pred, 'lower')
+        self.pred = self.check_negative(self.pred, 'lower_test')
         return self.pred
 
     def store_predictions(self, pred):

@@ -13,7 +13,6 @@ def check_len(dic):
     for country in dic:
         for state in dic[country]:
             if len(dic[country][state]['dates']) >= 2:
-                print(country, state)
                 if country not in a:
                     a[country] = {}
                 if state not in a[country]:
@@ -47,7 +46,7 @@ def convert_dic(df):
     cc = df.groupby(['Country', 'Province/State'])['Confirmed', 'Deaths', 'Recovered'].apply(lambda x: x.sum()).reset_index()
     dic = {}
     for (country, state, confirm, death, recover) in zip(cc['Country'], cc['Province/State'],
-                                                         cc['Confirmed'], cc['Deaths'],cc['Deaths']):
+                                                         cc['Confirmed'], cc['Deaths'],cc['Recovered']):
         if country not in dic:
                 dic[country] = {}
         if state not in dic[country]:
@@ -71,9 +70,9 @@ def stats(dic, pop):
             stats_dic[country][state]['total_confirmed'] = dic[country][state]['total_confirmed']
             stats_dic[country][state]['total_deaths'] = dic[country][state]['total_deaths']
             stats_dic[country][state]['total_recover'] = dic[country][state]['total_recover']
-            stats_dic[country][state]['risk_ratio'] = dic[country][state]['total_confirmed']/pop[country][state]
-            stats_dic[country][state]['fatality_ratio'] = dic[country][state]['total_deaths']/dic[country][state]['total_confirmed']
-            stats_dic[country][state]['recovery_prof_ratio'] = dic[country][state]['total_recover']/dic[country][state]['total_confirmed']
+            stats_dic[country][state]['risk_ratio'] = "%.*f" % (8, dic[country][state]['total_confirmed'] / pop[country][state])
+            stats_dic[country][state]['fatality_ratio'] = "%.*f" % (8, dic[country][state]['total_deaths'] / dic[country][state]['total_confirmed'])
+            stats_dic[country][state]['recovery_prof_ratio'] = "%.*f" % (8, dic[country][state]['total_recover'] / dic[country][state]['total_confirmed'])
     return stats_dic
 
 def convert_df_to_dic(df):

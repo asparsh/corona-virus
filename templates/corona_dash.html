@@ -90,10 +90,11 @@
                         <hr>
                         <div class="summay" id="summary">
                             <p>
-                                <i>Coronaviruses (CoV) are a large family of virus that cause illness ranging from
+                                <i>Coronaviruses (CoV) are a large family of viruses that cause illness ranging from
                                 the common cold to more severe diseases such as Middle East Respiratory Syndrome (MERS-CoV)
                                 and Severe Acute Respiratory Syndrome (SARS-CoV). A novel coronavirus (nCoV) is a new
-                                strain that has not been previously identified in humans. </p>
+                                strain that has not been previously identified in humans.
+                            </p>
                             <p>
                                 Coronaviruses are zoonotic, meaning they are transmitted between animals and people.
                                 Detailed investigations found that SARS-CoV was transmitted from civet cats to humans and
@@ -103,12 +104,12 @@
                             </p>
                             Basic Summary: <br>
                             Number of <b>Confirmed</b> cases of Coronavirus since 2020-01-22:&nbsp<b>{{ country_state.total_stats.confirmed }} </b><br>
-                            Number of <b>Deaths</b> due to Coronairus since 2020-01-22:&nbsp<b>{{ country_state.total_stats.deaths }} </b><br>
-                            Number of <b>Recovered</b> cases of Coronavirus since 2020-01-22:&nbsp<b>{{ country_state.total_stats.recovered }} </b><br>
+                            Number of <b>Deaths</b> due to Coronavirus since 2020-01-22:&nbsp<b>{{ country_state.total_stats.deaths }} </b><br>
+                            Number of <b>Recovered</b> cases from Coronavirus since 2020-01-22:&nbsp<b>{{ country_state.total_stats.recovered }} </b><br>
                         </div>
                     </div>
                     <div class="panel panel--loose panel--raised base-margin-bottom">
-                        <h2 class="subtitle">Coronavirus Summary</h2>
+                        <h2 class="subtitle">Resources</h2>
                         <hr>
                         <div class="end" id="end">
                             <p>
@@ -165,9 +166,7 @@
                             <option value="" disabled selected>Select</option>
                         </select>
                         <div id="ratios_div">
-                            {{ ratios.risk_ratio }}
-                            {{ ratios.fatality_ratio }}
-                            {{ recovery_prof_ratio }}
+
                         </div>
 
                     </div>
@@ -184,7 +183,7 @@
                             <p>
                                 This analysis has been done using the univariate model Arima with a constant window size of 7
                                 to predict the confirmed cases of Coronaviurus 7 days ahead. The data points represent the
-                                actual confirmed cases of coronavirus known till 02/11/2020.
+                                actual confirmed cases of coronavirus known till 11 February, 2020.
                             </p>
                             <p>
                                 The model also predicts a confidence interval based on the recovered cases, the
@@ -197,53 +196,13 @@
 
                     </div>
 
-                    <!-- Accordion -->
-                    <!--<div class="panel panel&#45;&#45;loose panel&#45;&#45;raised base-margin-bottom">-->
-                    <!--<h2 class="subtitle">Devices with Low memory</h2>-->
-                    <!--<hr>-->
-                    <!--<div>-->
-                    <!--<table id="top_devices">-->
-                    <!--<tr>-->
-                    <!--<th> Device ID</th>-->
-                    <!--<th> Node ID</th>-->
-                    <!--<th> Total Memory</th>-->
-                    <!--<th> Application Memory Available</th>-->
-                    <!--</tr>-->
-                    <!--{% for devices, value in top_devices.items %}-->
-                    <!--{% if devices == 'devices' %}-->
-                    <!--{% for device, device_value in value.items %}-->
-                    <!--{% for node, node_value in device_value.items %}-->
-                    <!--<tr>-->
-                    <!--<td> {{ device }}</td>-->
-                    <!--<td> {{ node }}</td>-->
-                    <!--<td> {{ node_value.total }}</td>-->
-                    <!--<td> {{ node_value.history }}</td>-->
-                    <!--</tr>-->
-                    <!--{% endfor %}-->
-                    <!--{% endfor %}-->
-                    <!--{% endif %}-->
-                    <!--{% endfor %}-->
-                    <!--</table>-->
-                    <!--</div>-->
-                    <!--</div>-->
 
-                    <!-- Alert -->
-                    <!--<div class="panel panel&#45;&#45;loose panel&#45;&#45;raised base-margin-bottom">-->
-                    <!--<h2 class="subtitle">Low Memory devices vs High Memory device</h2>-->
-                    <!--<hr>-->
-                    <!--<div id="piechart"></div>-->
-
-                    <!--</div>-->
-                    <!--</div>-->
                 </div>
             </div>
         </div>
     </div>
 </div>
 <script src="{% static 'js/custom_jquery.js' %}"></script>
-
-<!--    <script src="{% static 'js/chart.js' %}"></script>-->
-
 
 </body>
 
