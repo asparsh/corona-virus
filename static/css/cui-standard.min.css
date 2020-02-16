@@ -11765,7 +11765,7 @@ body.cui .header {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    margin: 0 auto 0 -80px;
+    margin: 0 auto 0 0;
     font-size: var(--cui-header-title-font-size);
     font-weight: var(--cui-header-title-font-weight); }
     body.cui .header .header__title:hover {

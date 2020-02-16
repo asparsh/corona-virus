@@ -4,21 +4,18 @@
 <html lang="en">
 
 <head>
-    <script src="{% static 'js/google_loader.js' %}"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-158608010-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-158608010-1');
+    </script>
+
+    <!--<script src="{% static 'js/google_loader.js' %}"></script>-->
     <meta charset="utf-8">
-    <meta name="description" content="The design system sponsored by Cisco Brand">
-    <meta name="image" content="http://cisco-ui.cisco.com/assets/img/uikit-1200x630%402x.png">
-    <meta itemprop="name" content="Cisco UI Kit">
-    <meta itemprop="description" content="The design system sponsored by Cisco Brand">
-    <meta itemprop="image" content="http://cisco-ui.cisco.com">
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Cisco UI Kit">
-    <meta name="twitter:description" content="The design system sponsored by Cisco Brand">
-    <meta property="og:title" content="Cisco UI Kit">
-    <meta property="og:description" content="The design system sponsored by Cisco Brand">
-    <meta property="og:image" content="https://cisco-ui.cisco.com/assets/img/uikit-1200x630%402x.png">
-    <meta property="og:url" content="http://cisco-ui.cisco.com">
-    <meta property="og:site_name" content="Cisco UI Kit">
     <meta property="og:locale" content="en_US">
     <meta property="og:type" content="website">
     <meta property="og:image:width" content="1200">
@@ -51,11 +48,12 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>UI Kit &middot; Collage</title>
+    <title>Coronavirus</title>
 
-    <script src="{% static 'js/custom.js' %}"></script>
     <script src="https://code.jquery.com/jquery-3.0.0.min.js"
             integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0=" crossorigin="anonymous"></script>
+    <script src="{% static 'js/custom.js' %}"></script>
+
     <!--<script src="../public/js/styleguide.js"></script>-->
 </head>
 
@@ -78,7 +76,6 @@
         </div>
     </div>
 </nav>
-
 <div class="content content--alt">
     <div class="container-fluid">
         <div class="row">
@@ -93,7 +90,7 @@
                         <hr>
                         <div class="summay" id="summary">
                             <p>
-                                Coronaviruses (CoV) are a large family of viruses that cause illness ranging from
+                                <i>Coronaviruses (CoV) are a large family of virus that cause illness ranging from
                                 the common cold to more severe diseases such as Middle East Respiratory Syndrome (MERS-CoV)
                                 and Severe Acute Respiratory Syndrome (SARS-CoV). A novel coronavirus (nCoV) is a new
                                 strain that has not been previously identified in humans. </p>
@@ -101,12 +98,13 @@
                                 Coronaviruses are zoonotic, meaning they are transmitted between animals and people.
                                 Detailed investigations found that SARS-CoV was transmitted from civet cats to humans and
                                 MERS-CoV from dromedary camels to humans. Several known coronaviruses are circulating in
-                                animals that have not yet infected humans.
+                                animals that have not yet infected humans.</i> -
+                                <a href="https://www.who.int/health-topics/coronavirus" target="_blank">WHO</a>
                             </p>
                             Basic Summary: <br>
-                            Number of <b>Confirmed</b> Conona Cases since 2020-01-22:&nbsp<b>{{ country_state.total_stats.confirmed }} </b><br>
-                            Number of <b>Deaths</b> due to Conona Virus since 2020-01-22:&nbsp<b>{{ country_state.total_stats.deaths }} </b><br>
-                            Number of <b>Recovered</b> cases of Conona Virus since 2020-01-22:&nbsp<b>{{ country_state.total_stats.recovered }} </b><br>
+                            Number of <b>Confirmed</b> cases of Coronavirus since 2020-01-22:&nbsp<b>{{ country_state.total_stats.confirmed }} </b><br>
+                            Number of <b>Deaths</b> due to Coronairus since 2020-01-22:&nbsp<b>{{ country_state.total_stats.deaths }} </b><br>
+                            Number of <b>Recovered</b> cases of Coronavirus since 2020-01-22:&nbsp<b>{{ country_state.total_stats.recovered }} </b><br>
                         </div>
                     </div>
                     <div class="panel panel--loose panel--raised base-margin-bottom">
@@ -114,9 +112,9 @@
                         <hr>
                         <div class="end" id="end">
                             <p>
-                                This project is done by Asparsh Chandera.<br/>
-                                Linkedin: <a href="https://www.linkedin.com/in/asparshchandera/" target=”_blank”>Asparsh Chandera</a><br/>
-                                Email Id: <a href="#">asparshchandra@gmail.com</a><br/>
+                                This project is developed by <a href="https://www.linkedin.com/in/asparshchandera/" target=”_blank”>Asparsh Chandera</a><br/>
+                                Collaborator: <a href="https://www.linkedin.com/in/mragankagarwal/" target=”_blank”> Mragank Agarwal</a><br/>
+                                Email: <a href="mailto:asparshchandra@gmail.com">asparshchandra@gmail.com</a><br/>
                                 The dataset is taken from: <br/>
                                 <a href="https://www.kaggle.com/sudalairajkumar/novel-corona-virus-2019-dataset" target="_blank">
                                     Kaggle: Collected by John Hopkins University
@@ -124,15 +122,10 @@
 
                             </p>
                             <p>
-                                I have used univarite model Arima with a constant window size of 7 to predict the confirmed
-                                cases of Coronaviurus 7 days ahead.<br/>
-                                Read more about Arima: <a href="https://towardsdatascience.com/arima-forecasting-in-python-90d36c2246d3" target="_blank">
+                                Read more about <a href="https://towardsdatascience.com/arima-forecasting-in-python-90d36c2246d3" target="_blank">
                                 Arima
                                 </a><br/>
-                                    The content has been borrowed from: <a href="https://www.who.int/health-topics/coronavirus" target="_blank">
-                                    Coronavirus
-                                </a><br/>
-                                Find the code of this project: <a href="https://github.com/asparsh/corona-virus" target="_blank">
+                                Find the code of this project at <a href="https://github.com/asparsh/corona-virus" target="_blank">
                                 Github
                             </a>
 
@@ -178,6 +171,7 @@
                         </div>
 
                     </div>
+                    <div id="image"><img src ="{% static 'img/loader.gif' %}"></div>
 
                     <!-- Checkbox -->
                     <div class="panel panel--loose panel--raised base-margin-bottom">
@@ -186,6 +180,20 @@
                         <div class="timeseries" id="timeseries">
                             {% include "fig.html" %}
                         </div>
+                        <div>
+                            <p>
+                                This analysis has been done using the univariate model Arima with a constant window size of 7
+                                to predict the confirmed cases of Coronaviurus 7 days ahead. The data points represent the
+                                actual confirmed cases of coronavirus known till 02/11/2020.
+                            </p>
+                            <p>
+                                The model also predicts a confidence interval based on the recovered cases, the
+                                number of people affected, and are getting affected by the virus. <br/>The <b>upper bound</b> tells
+                                us the maximum number of people who can get affected in the area. <br/>
+                                The <b>lower bound</b> tells us the maximum number of people who can recover.
+                            </p>
+                        </div>
+
 
                     </div>
 

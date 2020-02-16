@@ -13,7 +13,7 @@ class plot_results():
         trace1 = {
             "fill": None,
             "mode": "markers",
-            "name": "Actual Application Available",
+            "name": "Confirmed cases",
             "type": "scatter",
             "x": self.pred[country][state]['all_dates'] + self.pred[country][state]['forecast_dates'],
             "y": self.pred[country][state]['all_cases'],
@@ -22,7 +22,7 @@ class plot_results():
             "fill": "tonexty",
             #           "line": {"color": "#1efded"},
             "mode": "lines",
-            "name": "upper_band",
+            "name": "upper bound",
             "type": "scatter",
             "x": self.pred[country][state]['test_dates'] + self.pred[country][state]['forecast_dates'],
             "y": self.pred[country][state]['upper_test'] + self.pred[country][state]['upper'],
@@ -33,7 +33,7 @@ class plot_results():
             "fill": "tonexty",
             #           "line": {"color": "#57b8ff"},
             "mode": "lines",
-            "name": "lower_band",
+            "name": "lower bound",
             "type": "scatter",
             "x": self.pred[country][state]['test_dates'] + self.pred[country][state]['forecast_dates'],
             "y": self.pred[country][state]['lower_test'] + self.pred[country][state]['lower'],
@@ -43,7 +43,7 @@ class plot_results():
             #           "fill": "tonexty",
             #           "line": {"color": "#a6e22e"},
             "mode": "lines",
-            "name": "Model best fit line",
+            "name": "Model predictions",
             "type": "scatter",
             "x": self.pred[country][state]['all_dates'] + self.pred[country][state]['forecast_dates'],
             "y": self.pred[country][state]['train_original'] + self.pred[country][state]['forecast_test'] +
@@ -53,7 +53,7 @@ class plot_results():
 
         data = go.Data([trace1, trace2, trace3, trace4])
         layout = {
-            "title": "Cases of Corona virus in "+ country +" and state "+ state,
+            "title": "Cases in " + country + " for " + state,
             "xaxis": {
                 "title": "Dates",
                 "ticklen": 5,
@@ -72,7 +72,8 @@ class plot_results():
             "plot_bgcolor": "rgb(243, 243, 243)",
             "paper_bgcolor": "rgb(243, 243, 243)"
         }
+        config = {"responsive" : True}
 
         fig = go.Figure(data=data, layout=layout)
-        plot(fig, filename=os.path.join(BASE_DIR, 'templates/fig.html'), auto_open=False)
+        plot(fig, filename=os.path.join(BASE_DIR, 'templates/fig.html'), auto_open=False, config=config)
 

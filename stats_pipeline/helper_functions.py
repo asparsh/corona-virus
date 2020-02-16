@@ -1,5 +1,28 @@
 from datetime import datetime
 
+def remove_keys(dic):
+    for country in dic:
+        for state, value in dic[country].items():
+            if country == state:
+                dic[country]['All'] = value
+                del dic[country][state]
+    return dic
+
+def check_len(dic):
+    a = {}
+    for country in dic:
+        for state in dic[country]:
+            if len(dic[country][state]['dates']) >= 2:
+                print(country, state)
+                if country not in a:
+                    a[country] = {}
+                if state not in a[country]:
+                    a[country][state] = {}
+                a[country][state]['dates'] = dic[country][state]['dates']
+                a[country][state]['cases'] = dic[country][state]['cases']
+
+    return a
+
 def convert_datetime(df):
     df['date1'] = df['Date'].apply(lambda x: datetime.strptime(x, '%m/%d/%Y %H:%M:%S'))
     df['date'] = df['date1'].apply(lambda x: x.date())
@@ -32,6 +55,8 @@ def convert_dic(df):
         dic[country][state]['total_confirmed'] = confirm
         dic[country][state]['total_deaths'] = death
         dic[country][state]['total_recover'] = recover
+
+    dic = remove_keys(dic)
     return dic
 
 def stats(dic, pop):
@@ -42,6 +67,7 @@ def stats(dic, pop):
         for state in dic[country]:
             if state not in stats_dic[country]:
                 stats_dic[country][state] = {}
+
             stats_dic[country][state]['total_confirmed'] = dic[country][state]['total_confirmed']
             stats_dic[country][state]['total_deaths'] = dic[country][state]['total_deaths']
             stats_dic[country][state]['total_recover'] = dic[country][state]['total_recover']
@@ -76,7 +102,14 @@ def convert_df_to_dic(df):
         deaths[country][state]['cases'].append(death)
         recovered[country][state]['dates'].append(date)
         recovered[country][state]['cases'].append(recover)
-    return (confirmed, deaths, recovered)
+
+    confirmed = remove_keys(confirmed)
+    deaths = remove_keys(deaths)
+    recovered = remove_keys(recovered)
+    valid_confirmed = check_len(confirmed)
+    valid_deaths = check_len(deaths)
+    valid_recovered = check_len(recovered)
+    return (valid_confirmed, valid_deaths, valid_recovered)
 
 def train_test_split(dic):
     split_dic = {}

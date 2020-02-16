@@ -6,12 +6,12 @@ from stats_pipeline import helper_functions
 
 
 def read_and_clean_data():
-    with open(os.path.join(BASE_DIR, 'data/new_population.p'), 'rb') as fp:
+    with open(os.path.join(BASE_DIR, 'data/population.p'), 'rb') as fp:
         population = pickle.load(fp)
     dataset = pd.read_csv(os.path.join(BASE_DIR, "data/2019_nCoV_data.csv"))
     dataset['Country'] = dataset['Country'].apply(lambda x:'China' if x=='Mainland China' else x)
     dataset['Province/State'] = dataset['Province/State'].apply(lambda x:'Chicago' if x=='Chicago, IL' else x)
-    dataset['Province/State'].fillna(dataset['Country'], inplace=True)
+    dataset['Province/State'].fillna("All", inplace=True)
     dataset.loc[dataset['Province/State'] == 'Taiwan', 'Country'] = "Taiwan"
     dataset.loc[dataset['Province/State'] == 'Macau', 'Country'] = "Macau"
     indexNames = dataset[ (dataset['Confirmed'] == 0) & (dataset['Deaths'] == 0) & (dataset['Recovered'] == 0) ].index

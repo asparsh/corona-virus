@@ -8,13 +8,23 @@ from django.http import JsonResponse
 
 def get_country_state(request, *args, **kwargs):
     country_state = {}
-    country_state['country'] = {}
+    sort_country_state = {}
+    sort_country_state['country'] = {}
+
     with open(os.path.join(BASE_DIR, 'predictions/predictions.pickle'), 'rb') as handle:
         predictions = pickle.load(handle)
-    country_state['total_stats'] = predictions['total_stats']
+    sort_country_state['total_stats'] = predictions['total_stats']
+    country_state['country'] = {}
     for country in predictions:
-        country_state['country'][country] = [state for state in predictions[country]]
-    return render(request, 'corona_dash.html', {'country_state': country_state})
+        if country != 'total_stats':
+            country_state['country'][country] = [state for state in predictions[country]]
+    country_state['country'] = sorted(country_state['country'].items(), key=lambda x: x[0])
+    for key, value in country_state.items():
+        if key == 'country':
+            for key1 in value:
+                sort_country_state['country'][key1[0]] = key1[1]
+
+    return render(request, 'corona_dash.html', {'country_state': sort_country_state})
 
 
 
