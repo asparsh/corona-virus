@@ -103,9 +103,9 @@
                                 <a href="https://www.who.int/health-topics/coronavirus" target="_blank">WHO</a>
                             </p>
                             Basic Summary: <br>
-                            Number of <b>Confirmed</b> cases of Coronavirus since 2020-01-22:&nbsp<b>{{ country_state.total_stats.confirmed }} </b><br>
-                            Number of <b>Deaths</b> due to Coronavirus since 2020-01-22:&nbsp<b>{{ country_state.total_stats.deaths }} </b><br>
-                            Number of <b>Recovered</b> cases from Coronavirus since 2020-01-22:&nbsp<b>{{ country_state.total_stats.recovered }} </b><br>
+                            Number of <b>Confirmed</b> cases of Coronavirus until 31 May, 2020:&nbsp<b>{{ country_state.total_stats.confirmed }} </b><br>
+                            Number of <b>Deaths</b> due to Coronavirus until 31 May, 2020:&nbsp<b>{{ country_state.total_stats.deaths }} </b><br>
+                            Number of <b>Recovered</b> cases from Coronavirus until 31 May, 2020:&nbsp<b>{{ country_state.total_stats.recovered }} </b><br>
                         </div>
                     </div>
                     <div class="panel panel--loose panel--raised base-margin-bottom">
@@ -150,7 +150,7 @@
                         <hr>
                         <label> Select Country</label>
                         <input list="country" id="country_selected" name="country_selected"
-                               onchange="setSelectedValue(this.value, {{ country_state.country | safe }});"/>
+                               onchange="setSelectedValue(this.value, {{ country_state.country }});"/>
                         <datalist id="country">
                             <option value="" disabled selected>Select</option>
                             {% for key, value in country_state.items %}
@@ -183,7 +183,7 @@
                             <p>
                                 This analysis has been done using the univariate model Arima with a constant window size of 7
                                 to predict the confirmed cases of Coronaviurus 7 days ahead. The data points represent the
-                                actual confirmed cases of coronavirus known till 11 February, 2020.
+                                actual confirmed cases of coronavirus known till 31 May, 2020.
                             </p>
                             <p>
                                 The model also predicts a confidence interval based on the recovered cases, the

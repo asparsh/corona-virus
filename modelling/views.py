@@ -23,7 +23,6 @@ def get_country_state(request, *args, **kwargs):
         if key == 'country':
             for key1 in value:
                 sort_country_state['country'][key1[0]] = key1[1]
-
     return render(request, 'corona_dash.html', {'country_state': sort_country_state})
 
 
@@ -38,7 +37,13 @@ def getTimeSeriesGraph(request, *args, **kwargs):
     with open(os.path.join(BASE_DIR, 'templates/fig.html')) as f:
         fileContent = f.read()
     ratios = {}
-    ratios['risk_ratio'] = predictions[country][state]['risk_ratio']
+    ratios['state_total_confirmed'] = predictions[country][state]['state_total_confirmed']
+    ratios['state_total_deaths'] = predictions[country][state]['state_total_deaths']
+    ratios['state_total_recover'] = predictions[country][state]['state_total_recover']
+    ratios['total_confirmed'] = predictions[country][state]['total_confirmed']
+    ratios['total_deaths'] = predictions[country][state]['total_deaths']
+    ratios['total_recover'] = predictions[country][state]['total_recover']
+    # ratios['risk_ratio'] = predictions[country][state]['risk_ratio']
     ratios['fatality_ratio'] = predictions[country][state]['fatality_ratio']
     ratios['recovery_prof_ratio'] = predictions[country][state]['recovery_prof_ratio']
     ratios['cases_till_date'] = predictions[country][state]['all_cases'][-1]

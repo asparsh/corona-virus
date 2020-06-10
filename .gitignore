@@ -2,4 +2,4 @@
 *.p
 *.pickle
 *.txt
-
+.DS_Store

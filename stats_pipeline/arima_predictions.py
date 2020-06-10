@@ -20,10 +20,13 @@ class arima_model():
         self.pred[country][state]['forecast'] = []
         self.pred[country][state]['lower'] = []
         self.pred[country][state]['upper'] = []
+        self.pred[country][state]['state_total_confirmed'] = self.stats[country][state]['state_total_confirmed']
+        self.pred[country][state]['state_total_deaths'] = self.stats[country][state]['state_total_deaths']
+        self.pred[country][state]['state_total_recover'] = self.stats[country][state]['state_total_recover']
         self.pred[country][state]['total_confirmed'] = self.stats[country][state]['total_confirmed']
         self.pred[country][state]['total_deaths'] = self.stats[country][state]['total_deaths']
         self.pred[country][state]['total_recover'] = self.stats[country][state]['total_recover']
-        self.pred[country][state]['risk_ratio'] = self.stats[country][state]['risk_ratio']
+        # self.pred[country][state]['risk_ratio'] = self.stats[country][state]['risk_ratio']
         self.pred[country][state]['fatality_ratio'] = self.stats[country][state]['fatality_ratio']
         self.pred[country][state]['recovery_prof_ratio'] = self.stats[country][state]['recovery_prof_ratio']
         self.pred[country][state]['all_cases'] = self.data[country][state]['cases']
@@ -45,11 +48,12 @@ class arima_model():
 
     def initialise_model(self, value, num, train):
         if value:
-            model = ARIMA(train, order=(3, 0, 0))
+            model = ARIMA(train, order=(4, 1, 0))
             model_fit = model.fit(trend='nc', disp=False)
             forecast, stderr, conf = model_fit.forecast(num)
         else:
             model = ARIMA(train, order=(1, 0, 0))
+
             model_fit = model.fit(trend='nc', disp=False)
             forecast, stderr, conf = model_fit.forecast(num)
         return forecast, stderr, conf
@@ -94,22 +98,18 @@ class arima_model():
                             self.pred[country][state]['forecast'] += list(forecast)
                             self.pred[country][state]['lower'] += list(conf[:, 0])
                             self.pred[country][state]['upper'] += list(conf[:, 1])
-                            self.pred[country][state]['forecast_dates'] += self.generate_dates(
-                                self.data[country][state]['dates'][-1], 7)
+                            self.pred[country][state]['forecast_dates'] += self.generate_dates(self.data[country][state]['dates'][-1], 7)
                         except:
                             forecast, stderr, conf = self.initialise_model(False, 7, self.data[country][state]['cases'])
                             self.pred[country][state]['forecast'] += list(forecast)
                             self.pred[country][state]['lower'] += list(conf[:, 0])
                             self.pred[country][state]['upper'] += list(conf[:, 1])
-                            self.pred[country][state]['forecast_dates'] += self.generate_dates(
-                                self.data[country][state]['dates'][-1], 7)
+                            self.pred[country][state]['forecast_dates'] += self.generate_dates(self.data[country][state]['dates'][-1], 7)
                     else:
                         size = len(self.pred[country][state]['test_cases'])
                         self.pred[country][state]['forecast_test'] += self.pred[country][state]['test_cases']
-                        self.pred[country][state]['lower_test'] += [(self.data[country][state]['train_cases'][
-                                                                         -1] - 5)] * size
-                        self.pred[country][state]['upper_test'] += [(self.data[country][state]['train_cases'][
-                                                                         -1] + 5)] * size
+                        self.pred[country][state]['lower_test'] += [(self.data[country][state]['train_cases'][-1] - 5)] * size
+                        self.pred[country][state]['upper_test'] += [(self.data[country][state]['train_cases'][-1] + 5)] * size
                         self.pred[country][state]['train_dates'] += self.pred[country][state]['test_dates']
                         self.pred[country][state]['train_cases'] += self.data[country][state]['test_cases']
                         self.pred[country][state]['error_test'].append(str(0))

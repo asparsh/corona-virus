@@ -9,6 +9,7 @@ class plot_results():
         self.pred = pred
 
     def plot(self, country, state):
+        print(country, state)
 
         trace1 = {
             "fill": None,

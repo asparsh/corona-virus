@@ -1,5 +1,6 @@
-function setSelectedValue(value ,top) {
-  var country_state = JSON.parse(JSON.stringify( top ));
+function setSelectedValue(value, country_state) {
+  var country_state = JSON.parse(JSON.stringify( country_state ));
+
   if (value.length == 0) document.getElementById("state_selected").innerHTML = "<option></option>";
   else {
     var catOptions = "";

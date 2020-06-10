@@ -36,12 +36,17 @@ $("#country_selected").change(function () {
     .done(function(data, textStatus, jqxhr){
         if (prev_country != country || prev_state != state) {
           $('#timeseries').html(data.fileContent);
-          document.getElementById('ratios_div').innerHTML = "<br/>Risk Ratio: " + data.ratios.risk_ratio +
+          document.getElementById('ratios_div').innerHTML = "<br/>Total <b>confirmed</b> cases in this <b>country</b> : <b>" + data.ratios.total_confirmed + "</b>" +
+                                                            "<br/>Total <b>deaths</b> in this <b>country</b>: <b>" + data.ratios.total_deaths + "</b>" +
+                                                            "<br/>Total people <b>recovered</b> this <b>country</b>: <b>" + data.ratios.total_recover + "</b>" +
+                                                            "<br/>Total <b>confirmed</b> cases in this <b>state</b>: <b>" + data.ratios.state_total_confirmed + "</b>" +
+                                                            "<br/>Total <b>deaths</b> in this <b>state</b>: <b>" + data.ratios.state_total_deaths + "</b>" +
+                                                            "<br/>Total people <b>recovered</b> in this <b>state</b>: <b>" + data.ratios.state_total_recover + "</b>" +
                                                             "<br/>Fatality Ratio: " + data.ratios.fatality_ratio +
                                                             "<br/>Recovery Proficiency Ratio: " + data.ratios.recovery_prof_ratio +
-                                                            "<br/>Cases Till date: " + data.ratios.cases_till_date +
+                                                            "<br/>"+
                                                             "<br/>Predicted number of cases till next week: " + data.ratios.cases_predicted +
-                                                            "<br/><br/>***<br/> Risk Ratio: Probability of an individual getting infected by the virus"+
+                                                             "<br/><br/>***<br/> Risk Ratio: Probability of an individual getting infected by the virus"+
                                                              " within that region (Confirmed Cases / Population) <br/>" +
                                                              "Fatality Ratio: Measure of a disease's severity in that region (Total cases of death / Total confirmed cases) <br/>"+
                                                              "Recovery Proficiency Ratio: Total Recovered cases out of total affected cases in that region <br/>";
@@ -73,10 +78,15 @@ $("#state_selected").change(function () {
 
       if (prev_country != country || prev_state != state) {
         $('#timeseries').html(data.fileContent);
-        document.getElementById('ratios_div').innerHTML = "<br/>Risk Ratio: " + data.ratios.risk_ratio +
+        document.getElementById('ratios_div').innerHTML = "<br/>Total <b>confirmed</b> cases in this <b>country</b> : <b>" + data.ratios.total_confirmed + "</b>" +
+                                                            "<br/>Total <b>deaths</b> in this <b>country</b>: <b>" + data.ratios.total_deaths + "</b>" +
+                                                            "<br/>Total people <b>recovered</b> this <b>country</b>: <b>" + data.ratios.total_recover + "</b>" +
+                                                            "<br/>Total <b>confirmed</b> cases in this <b>state</b>: <b>" + data.ratios.state_total_confirmed + "</b>" +
+                                                            "<br/>Total <b>deaths</b> in this <b>state</b>: <b>" + data.ratios.state_total_deaths + "</b>" +
+                                                            "<br/>Total people <b>recovered</b> in this <b>state</b>: <b>" + data.ratios.state_total_recover + "</b>" +
                                                             "<br/>Fatality Ratio: " + data.ratios.fatality_ratio +
                                                             "<br/>Recovery Proficiency Ratio: " + data.ratios.recovery_prof_ratio +
-                                                            "<br/>Cases Till date: " + data.ratios.cases_till_date +
+                                                            "<br/>"+
                                                             "<br/>Predicted number of cases till next week: " + data.ratios.cases_predicted +
                                                              "<br/><br/>***<br/> Risk Ratio: Probability of an individual getting infected by the virus"+
                                                              " within that region (Confirmed Cases / Population) <br/>" +

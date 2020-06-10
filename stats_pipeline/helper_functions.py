@@ -12,7 +12,7 @@ def check_len(dic):
     a = {}
     for country in dic:
         for state in dic[country]:
-            if len(dic[country][state]['dates']) >= 2:
+            if len(dic[country][state]['dates']) > 2:
                 if country not in a:
                     a[country] = {}
                 if state not in a[country]:
@@ -23,42 +23,48 @@ def check_len(dic):
     return a
 
 def convert_datetime(df):
-    df['date1'] = df['Date'].apply(lambda x: datetime.strptime(x, '%m/%d/%Y %H:%M:%S'))
+    df['date1'] = df['ObservationDate'].apply(lambda x: datetime.strptime(x, '%m/%d/%Y'))
     df['date'] = df['date1'].apply(lambda x: x.date())
     df['time'] = df['date1'].apply(lambda x: x.time())
-    df = df.drop(['Date', 'date1'], axis=1)
-    df = df.reindex(columns=['Sno', 'Country','Province/State', 'date', 'time','Last Update',
+    df = df.drop(['ObservationDate', 'date1'], axis=1)
+    df = df.reindex(columns=['SNo', 'Country/Region','Province/State', 'date', 'time','Last Update',
                              'Confirmed', 'Deaths', 'Recovered'])
     return df
+
+def stats_df(df):
+    con_sta = df.groupby(["Country/Region", "Province/State"])['Confirmed','Deaths','Recovered', 'date'].last().reset_index()
+    con = con_sta.groupby(["Country/Region"]).sum().reset_index()
+    return con_sta, con
 
 def provide_general_stats(df):
     output = {'confirmed':'',
               'deaths':'',
               'recovered':''}
-    min_date = str(min(df['date']))
-    output['confirmed'] = '{:,.0f}'.format(int(df['Confirmed'].sum()))
-    output['deaths'] = '{:,.0f}'.format(int(df['Deaths'].sum()))
-    output['recovered'] = '{:,.0f}'.format(int(df['Recovered'].sum()))
+    output['confirmed'] = '{:,.0f}'.format(df["Confirmed"].sum())
+    output['deaths'] = '{:,.0f}'.format(df["Deaths"].sum())
+    output['recovered'] = '{:,.0f}'.format(df["Recovered"].sum())
     return output
 
 
-def convert_dic(df):
-    cc = df.groupby(['Country', 'Province/State'])['Confirmed', 'Deaths', 'Recovered'].apply(lambda x: x.sum()).reset_index()
+def convert_dic(con_sta, con):
     dic = {}
-    for (country, state, confirm, death, recover) in zip(cc['Country'], cc['Province/State'],
-                                                         cc['Confirmed'], cc['Deaths'],cc['Recovered']):
+    for (country, state, confirm, death, recover) in zip(con_sta['Country/Region'], con_sta['Province/State'],
+                                                         con_sta['Confirmed'], con_sta['Deaths'], con_sta['Recovered']):
         if country not in dic:
                 dic[country] = {}
         if state not in dic[country]:
             dic[country][state] = {}
-        dic[country][state]['total_confirmed'] = confirm
-        dic[country][state]['total_deaths'] = death
-        dic[country][state]['total_recover'] = recover
+        dic[country][state]['state_total_confirmed'] = confirm
+        dic[country][state]['state_total_deaths'] = death
+        dic[country][state]['state_total_recover'] = recover
+        dic[country][state]['total_confirmed'] = int(con[con["Country/Region"] == country]["Confirmed"].values[0])
+        dic[country][state]['total_deaths'] = int(con[con["Country/Region"] == country]["Deaths"].values[0])
+        dic[country][state]['total_recover'] = int(con[con["Country/Region"] == country]["Recovered"].values[0])
 
-    dic = remove_keys(dic)
+    # dic = remove_keys(dic)
     return dic
 
-def stats(dic, pop):
+def stats(dic):
     stats_dic = {}
     for country in dic:
         if country not in stats_dic:
@@ -67,19 +73,25 @@ def stats(dic, pop):
             if state not in stats_dic[country]:
                 stats_dic[country][state] = {}
 
-            stats_dic[country][state]['total_confirmed'] = dic[country][state]['total_confirmed']
-            stats_dic[country][state]['total_deaths'] = dic[country][state]['total_deaths']
-            stats_dic[country][state]['total_recover'] = dic[country][state]['total_recover']
-            stats_dic[country][state]['risk_ratio'] = "%.*f" % (8, dic[country][state]['total_confirmed'] / pop[country][state])
-            stats_dic[country][state]['fatality_ratio'] = "%.*f" % (8, dic[country][state]['total_deaths'] / dic[country][state]['total_confirmed'])
-            stats_dic[country][state]['recovery_prof_ratio'] = "%.*f" % (8, dic[country][state]['total_recover'] / dic[country][state]['total_confirmed'])
+            stats_dic[country][state]['state_total_confirmed'] = '{:,.0f}'.format(dic[country][state]['state_total_confirmed'])
+            stats_dic[country][state]['state_total_deaths'] = '{:,.0f}'.format(dic[country][state]['state_total_deaths'])
+            stats_dic[country][state]['state_total_recover'] = '{:,.0f}'.format(dic[country][state]['state_total_recover'])
+            stats_dic[country][state]['total_confirmed'] = '{:,.0f}'.format(dic[country][state]['total_confirmed'])
+            stats_dic[country][state]['total_deaths'] = '{:,.0f}'.format(dic[country][state]['total_deaths'])
+            stats_dic[country][state]['total_recover'] = '{:,.0f}'.format(dic[country][state]['total_recover'])
+            # stats_dic[country][state]['risk_ratio'] = "%.*f" % (
+            # 8, dic[country][state]['state_total_confirmed'] / pop[country][state])
+            stats_dic[country][state]['fatality_ratio'] = "%.*f" % (
+            8, dic[country][state]['state_total_deaths'] / dic[country][state]['total_confirmed'])
+            stats_dic[country][state]['recovery_prof_ratio'] = "%.*f" % (
+            8, dic[country][state]['state_total_recover'] / dic[country][state]['total_confirmed'])
     return stats_dic
 
 def convert_df_to_dic(df):
     confirmed = {}
     deaths = {}
     recovered = {}
-    for country, state, date, confirm, death, recover in zip(df['Country'], df['Province/State'], df['date'],
+    for country, state, date, confirm, death, recover in zip(df['Country/Region'], df['Province/State'], df['date'],
                                                                   df['Confirmed'],df['Deaths'], df['Recovered']):
         if country not in confirmed:
             confirmed[country] = {}
@@ -102,9 +114,9 @@ def convert_df_to_dic(df):
         recovered[country][state]['dates'].append(date)
         recovered[country][state]['cases'].append(recover)
 
-    confirmed = remove_keys(confirmed)
-    deaths = remove_keys(deaths)
-    recovered = remove_keys(recovered)
+    # confirmed = remove_keys(confirmed)
+    # deaths = remove_keys(deaths)
+    # recovered = remove_keys(recovered)
     valid_confirmed = check_len(confirmed)
     valid_deaths = check_len(deaths)
     valid_recovered = check_len(recovered)
